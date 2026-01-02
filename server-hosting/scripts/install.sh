@@ -20,9 +20,9 @@ apt install -y unzip lib32gcc1 steamcmd
 
 # install satisfactory: https://satisfactory.fandom.com/wiki/Dedicated_servers
 if [ $USE_EXPERIMENTAL_BUILD = "true" ]; then
-    STEAM_INSTALL_SCRIPT="/usr/games/steamcmd +login anonymous +app_update 1690800 -beta experimental validate +quit"
+    STEAM_INSTALL_SCRIPT="/usr/games/steamcmd +force_install_dir /home/ubuntu/.steam/SteamApps/common/SatisfactoryDedicatedServer +login anonymous +app_update 1690800 -beta experimental validate +quit"
 else
-    STEAM_INSTALL_SCRIPT="/usr/games/steamcmd +login anonymous +app_update 1690800 -beta public validate +quit"
+    STEAM_INSTALL_SCRIPT="/usr/games/steamcmd +force_install_dir /home/ubuntu/.steam/SteamApps/common/SatisfactoryDedicatedServer +login anonymous +app_update 1690800 validate +quit"
 fi
 # note, we are switching users because steam doesn't recommend running steamcmd as root
 su - ubuntu -c "$STEAM_INSTALL_SCRIPT"
@@ -37,7 +37,7 @@ After=syslog.target network.target nss-lookup.target network-online.target
 [Service]
 Environment="LD_LIBRARY_PATH=./linux64"
 ExecStartPre=$STEAM_INSTALL_SCRIPT
-ExecStart=/home/ubuntu/.steam/SteamApps/common/SatisfactoryDedicatedServer/FactoryServer.sh -multihome=0.0.0.0
+ExecStart=/home/ubuntu/.steam/SteamApps/common/SatisfactoryDedicatedServer/FactoryServer.sh
 User=ubuntu
 Group=ubuntu
 StandardOutput=journal
